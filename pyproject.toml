@@ -1,0 +1,6 @@
+[project]
+name = "synapse-ai"
+version = "0.0.1"
+
+[tool.setuptools.packages.find]
+where = ["src"]
