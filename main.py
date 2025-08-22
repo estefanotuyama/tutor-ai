@@ -1,5 +1,5 @@
 from synapse.services.llm_call import call_llm
-from synapse.services.populate_db import populate_db
+from synapse.services.populate_db import populate_db_cs50
 import logging
 
 def main(populating: bool = False):
@@ -12,12 +12,13 @@ def main(populating: bool = False):
 
     if populating:
         try:
-            populate_db()
+            populate_db_cs50()
         except Exception as e:
             logging.error(f"Error populating the database: {e}")
 
     #testing an llm call
-    call_llm("How does python implement its interpreter?")
+    query = str(input("Enter your query: "))
+    call_llm(query)
 
 
 if __name__ == "__main__":

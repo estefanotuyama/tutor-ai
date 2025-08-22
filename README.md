@@ -13,10 +13,10 @@ Project Synapse ingests the complete transcript of the Harvard CS50 lecture and 
 ## Tech Stack (Planned)
 
 * **Language:** Python
-* **API:** FastAPI
+* **API:** FastAPI (soon)
 * **Database:** Weaviate (Vector Database)
-* **AI:** LLM yet to be defined
+* **AI:** LLM yet to be defined - currently using deepseek r1 1.5b
 
 ## Project Status
 
-> 🚧 This project is in the initial planning and development phase.
+> 🚧 This project is in the initial development phase.

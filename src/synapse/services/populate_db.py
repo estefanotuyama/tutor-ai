@@ -1,19 +1,19 @@
 from weaviate.collections.classes.config import Property, DataType
-from synapse.chunking import group_events_into_chunks
-from synapse.db.db_utils import connect_to_client, project_id
-from synapse.parsing.lectureParser import parse_lecture
+from synapse.utils.chunking import group_events_into_chunks
+from synapse.db.db_utils import connect_to_client, CS50_COLLECTION_NAME
+from synapse.utils.lectureParser import parse_lecture
 from weaviate.classes.config import Configure
 import logging
 
 logger = logging.getLogger(__name__)
 
-def populate_db():
+def populate_db_cs50():
 
     logger.info("Starting database population. Connecting to Weaviate...")
     client = connect_to_client()
-    logger.info(logging.INFO, "Connected to Weaviate")
+    logger.info("Connected to Weaviate")
 
-    collection_name = "Lectures"
+    collection_name = CS50_COLLECTION_NAME
 
     if client.collections.exists(collection_name):
         client.collections.delete(collection_name)
@@ -25,7 +25,6 @@ def populate_db():
         vector_config=Configure.Vectors.text2vec_huggingface(
             model="sentence-transformers/all-MiniLM-L6-v2"
         ),
-        generative_config=Configure.Generative.google(project_id=project_id),
         properties=[
             Property(name="content", data_type=DataType.TEXT),
             Property(name="start_ms", data_type=DataType.INT),
