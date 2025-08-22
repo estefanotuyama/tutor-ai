@@ -31,3 +31,4 @@
 /.idea/vcs.xml
 /src/synapse_ai.egg-info/
 lecture.json3
+.env
