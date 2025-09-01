@@ -1,4 +1,5 @@
-from synapse.db.db_utils import connect_to_client, CS50_COLLECTION_NAME
+from synapse.db.db_utils import connect_to_client
+from synapse.utils.configuration import CS50_COLLECTION_NAME
 
 
 def retrieve_documents_rag(query: str, limit: int, collection: str = CS50_COLLECTION_NAME):

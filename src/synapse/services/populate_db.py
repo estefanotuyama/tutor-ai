@@ -1,7 +1,8 @@
 from weaviate.collections.classes.config import Property, DataType
 from synapse.utils.chunking import group_events_into_chunks
-from synapse.db.db_utils import connect_to_client, CS50_COLLECTION_NAME
+from synapse.db.db_utils import connect_to_client
 from synapse.utils.lectureParser import parse_lecture
+from synapse.utils.configuration import CS50_COLLECTION_NAME, EMBEDDING_MODEL
 from weaviate.classes.config import Configure
 import logging
 
@@ -23,7 +24,7 @@ def populate_db_cs50():
     lectures = client.collections.create(
         name=collection_name,
         vector_config=Configure.Vectors.text2vec_huggingface(
-            model="sentence-transformers/all-MiniLM-L6-v2"
+            model=EMBEDDING_MODEL
         ),
         properties=[
             Property(name="content", data_type=DataType.TEXT),

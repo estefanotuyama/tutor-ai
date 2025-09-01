@@ -1,18 +1,7 @@
-import os
-from dotenv import load_dotenv
 import weaviate
 from weaviate.auth import Auth
 from weaviate.config import AdditionalConfig, Timeout
-
-load_dotenv()
-
-#api keys
-weaviate_url = os.environ["WEAVIATE_URL"]
-weaviate_api_key = os.environ["WEAVIATE_APIKEY"]
-huggingface_api_key = os.getenv("HUGGINGFACE_APIKEY")
-
-#lecture collection name
-CS50_COLLECTION_NAME = os.getenv("CS50_COLLECTION_NAME")
+from synapse.utils.configuration import huggingface_api_key, weaviate_url, weaviate_api_key
 
 headers={
         "X-HuggingFace-Api-Key": huggingface_api_key,

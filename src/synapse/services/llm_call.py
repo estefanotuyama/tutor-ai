@@ -1,35 +1,32 @@
-from openai import OpenAI
-from synapse.db.db_utils import huggingface_api_key
 from synapse.services.rag_logic import retrieve_documents_rag
+from synapse.utils.configuration import YOUTUBE_LINK, cs50_prompt_template
+from synapse.utils.llm_utils import format_documents, call_llm_with_context
 
 
-def call_llm(query: str, limit: int=3):
+def call_with_rag(query: str, context: list, limit: int=3):
 
     documents = retrieve_documents_rag(query, limit)
+    formatted_documents = format_documents(documents)
 
-    PROMPT = f"""Answer the user question based on  provided documents.
-            User question: {query}
-            Documents: {documents}
-    """
+    reference_timestamp = documents[0].get('start_ms') // 1000
+    reference_link = f"{YOUTUBE_LINK}&t={reference_timestamp}s"
 
-    llm_client = connect_to_llm()
-
-    completion = llm_client.chat.completions.create(
-        model="deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B:nscale",
-        messages=[
-            {
-                "role": "user",
-                "content": PROMPT
-            }
-        ],
+    prompt = cs50_prompt_template.format(
+        formatted_documents=formatted_documents,
+        reference_link=reference_link,
+        query=query
     )
 
-    llm_client.close()
-    print(completion.choices[0].message.content)
+    completion, context = call_llm_with_context(prompt, context, role='user')
 
-def connect_to_llm():
-    llm_client = OpenAI(
-        base_url = "https://router.huggingface.co/v1",
-        api_key = huggingface_api_key
-    )
-    return llm_client
+    return completion, context
+
+
+def start_chat():
+    context = []
+    while True:
+        user_input = str(input("Enter your query: "))
+        if user_input == "exit":
+            break
+        response, context = call_with_rag(user_input, context)
+        print(f"Response: {response.content}")
