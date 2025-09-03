@@ -1,4 +1,4 @@
-# Project Synapse
+# Project Tutor
 
 A RAG-powered AI tutor for Harvard's CS50 course, allowing users to ask questions and get timestamped answers directly from the 25-hour lecture.
 
